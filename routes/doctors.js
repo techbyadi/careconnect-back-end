@@ -10,5 +10,7 @@ router.get('/', doctorsCtrl.index)
 router.get('/:doctorId', doctorsCtrl.show)
 
 /*---------- Protected Routes ----------*/
+router.use(decodeUserFromToken)
+router.post('/:doctorId/reviews', checkAuth, doctorsCtrl.createReview)
 
 export { router }
