@@ -18,6 +18,17 @@ async function create(req, res) {
   }
 }
 
+async function index(req, res) {
+  try {
+    const appointments = await Appointment.find().populate('patient')
+    res.status(200).json(appointments)
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error)
+  }
+}
+
 export {
-  create
+  create,
+  index
 }
