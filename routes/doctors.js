@@ -12,5 +12,7 @@ router.get('/:doctorId', doctorsCtrl.show)
 /*---------- Protected Routes ----------*/
 router.use(decodeUserFromToken)
 router.post('/:doctorId/reviews', checkAuth, doctorsCtrl.createReview)
+router.put('/:doctorId/reviews', checkAuth, doctorsCtrl.updateReview)
+router.delete('/:doctorId/reviews/:reviewId', checkAuth, doctorsCtrl.deleteReview)
 
 export { router }
