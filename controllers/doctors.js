@@ -49,9 +49,24 @@ async function createReview(req, res) {
   }
 }
 
+async function updateReview(req, res) {
+  try {
+    const doctor = await Doctor.findById(req.params.doctorId)
+    const review = doctor.reviews.id(req.body._id)
+    review.content = req.body.content
+    review.rating = req.body.rating
+    await doctor.save()
+    res.status(200).json(doctor)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)    
+  }
+}
+
 export {
   create,
   index,
   show,
   createReview,
+  updateReview,
 }
