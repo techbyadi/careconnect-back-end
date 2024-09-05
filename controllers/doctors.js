@@ -22,7 +22,18 @@ async function index(req, res) {
   }
 }
 
+async function show(req, res) {
+  try {
+    const doctor = await Doctor.findById(req.params.doctorId)
+    res.status(200).json(doctor)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
+
 export {
   create,
   index,
+  show,
 }

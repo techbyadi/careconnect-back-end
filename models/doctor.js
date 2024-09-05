@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const Schema = mongoose.Schema
 
-const commentSchema = new Schema({
+const reviewSchema = new Schema({
   author: {
     type: Schema.Types.ObjectId, ref: "Profile"
   },
@@ -42,7 +42,7 @@ const doctorSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Appointment'
   },
-  comments: [commentSchema]
+  reviews: [reviewSchema]
 },{
   timestamps: true,
 })
