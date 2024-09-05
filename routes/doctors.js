@@ -7,7 +7,7 @@ const router = Router()
 /*---------- Public Routes ----------*/
 router.post('/', doctorsCtrl.create)
 router.get('/', doctorsCtrl.index)
-
+router.get('/:doctorId', doctorsCtrl.show)
 
 /*---------- Protected Routes ----------*/
 
