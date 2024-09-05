@@ -9,8 +9,7 @@ const router = Router()
 
 /*---------- Protected Routes ----------*/
 router.use(decodeUserFromToken)
-
-//localhost:3001/api/appointments/new
 router.post('/', checkAuth, appointmentsCtrl.create)
+router.get('/', checkAuth, appointmentsCtrl.index)
 
 export { router }
