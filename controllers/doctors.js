@@ -63,10 +63,23 @@ async function updateReview(req, res) {
   }
 }
 
+async function deleteReview(req, res) {
+  try {
+    const doctor = await Doctor.findById(req.params.doctorId)
+    doctor.reviews.remove({ _id: req.params.reviewId })
+    await doctor.save()
+    res.status(200).json(doctor)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(500)
+  }
+}
+
 export {
   create,
   index,
   show,
   createReview,
   updateReview,
+  deleteReview
 }
