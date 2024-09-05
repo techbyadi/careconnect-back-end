@@ -1,4 +1,5 @@
 import { Doctor } from "../models/doctor.js"
+import { Profile } from "../models/profile.js"
 
 async function create(req, res) {
   try {
@@ -32,8 +33,25 @@ async function show(req, res) {
   }
 }
 
+async function createReview(req, res) {
+  try {
+    req.body.author = req.user.profile
+    const doctor = await Doctor.findById(req.params.doctorId)
+    doctor.reviews.push(req.body)
+    await doctor.save()
+    const newReview = doctor.reviews.at(-1)
+    const profile = await Profile.findById(req.user.profile)
+    newReview.author = profile
+    res.status(201).json(newReview)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)    
+  }
+}
+
 export {
   create,
   index,
   show,
+  createReview,
 }
