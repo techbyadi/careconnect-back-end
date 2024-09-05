@@ -11,5 +11,8 @@ const router = Router()
 router.use(decodeUserFromToken)
 router.post('/', checkAuth, appointmentsCtrl.create)
 router.get('/', checkAuth, appointmentsCtrl.index)
+router.get('/:appointmentId', checkAuth, appointmentsCtrl.show)
+router.put('/:appointmentId', checkAuth, appointmentsCtrl.update)
+router.delete('/:appointmentId', checkAuth, appointmentsCtrl.delete)
 
 export { router }
