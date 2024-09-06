@@ -20,7 +20,7 @@ async function create(req, res) {
 
 async function index(req, res) {
   try {
-    const appointments = await Appointment.find().populate('patient')
+    const appointments = await Appointment.find({patient:req.user.profile}).populate('patient')
     res.status(200).json(appointments)
   } catch (error) {
     console.log(error);
