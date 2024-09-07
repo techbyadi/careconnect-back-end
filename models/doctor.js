@@ -42,6 +42,13 @@ const doctorSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Appointment'
   },
+  date: { type: Date, required: true },
+  timeSlots: [
+    {
+      time: { type: String, required: true },
+      isAvailable: { type: Boolean, default: true },
+    }
+  ],
   reviews: [reviewSchema]
 },{
   timestamps: true,
