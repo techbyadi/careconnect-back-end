@@ -4,6 +4,7 @@ import { Appointment } from "../models/appointment.js";
 async function create(req, res) {
   try {
     req.body.patient = req.user.profile
+    req.body.doctor = req.body.doctorId;
     const appointment = await Appointment.create(req.body)
     const profile = await Profile.findByIdAndUpdate(
       req.user.profile,
