@@ -4,7 +4,7 @@ import { Appointment } from "../models/appointment.js";
 async function create(req, res) {
   try {
     req.body.patient = req.user.profile
-    req.body.doctor = req.body.doctorId;
+    req.body.doctor = req.body.doctor;
     const appointment = await Appointment.create(req.body)
     const profile = await Profile.findByIdAndUpdate(
       req.user.profile,
@@ -21,7 +21,9 @@ async function create(req, res) {
 
 async function index(req, res) {
   try {
-    const appointments = await Appointment.find({patient:req.user.profile}).populate('patient')
+    const appointments = await Appointment.find({patient:req.user.profile}).
+    populate('patient').
+    populate('doctor')
     res.status(200).json(appointments)
   } catch (error) {
     console.log(error);
