@@ -38,10 +38,17 @@ const doctorSchema = new Schema({
   contactNumber: {
     type : Number 
   },
-  availability: {
-    type: Schema.Types.ObjectId,
-    ref: 'Appointment'
-  },
+  availability: [
+    {
+      date: { type: Date, required: true },
+      slots: [
+        {
+          time: { type: String, required: true },
+          isAvailable: { type: Boolean, required: true }
+        }
+      ]
+    }
+  ],
   reviews: [reviewSchema]
 },{
   timestamps: true,
