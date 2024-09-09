@@ -15,7 +15,7 @@ async function create(req, res) {
 
 async function index(req, res) {
   try {
-    const doctors = await Doctor.find()
+    const doctors = await Doctor.find()   
     res.status(200).json(doctors)
   } catch (error) {
     console.log(error)
@@ -25,7 +25,7 @@ async function index(req, res) {
 
 async function show(req, res) {
   try {
-    const doctor = await Doctor.findById(req.params.doctorId)
+    const doctor = await Doctor.findById(req.params.doctorId).populate('reviews.author')
     res.status(200).json(doctor)
   } catch (error) {
     console.log(error)
