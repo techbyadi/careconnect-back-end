@@ -63,11 +63,46 @@ async function show(req, res) {
 
 async function update(req, res) {
   try {
+
+    const existingAppointment = await Appointment.findById(req.params.appointmentId);
+
     const appointment = await Appointment.findByIdAndUpdate(
       req.params.appointmentId,
       req.body,
       { new: true }
     ).populate("patient")
+
+    const doctor = await Doctor.findById(appointment.doctor);
+
+    const existingAppointmentDate = new Date(existingAppointment.appointmentDate).toISOString().split("T")[0];
+    const newAppointmentDate = new Date(appointment.appointmentDate).toISOString().split("T")[0];
+
+    
+    if (existingAppointmentDate !== newAppointmentDate || existingAppointment.time !== appointment.time) {
+      doctor.availability.forEach((availability) => {
+        const availabilityDate = new Date(availability.date).toISOString().split("T")[0]
+        if (availabilityDate === existingAppointmentDate) {
+          availability.slots.forEach((slot) => {
+            if (slot.time === existingAppointment.time) {
+              slot.isAvailable = true
+            }
+          })
+        }
+      })
+    }
+
+    doctor.availability.forEach((availability) => {
+      const availabilityDate = new Date(availability.date).toISOString().split("T")[0]
+      if (availabilityDate === newAppointmentDate) {
+        availability.slots.forEach((slot) => {
+          if (slot.time === appointment.time) {
+            slot.isAvailable = false
+          }
+        })
+      }
+    })
+
+    await doctor.save()
     res.status(200).json(appointment)
   } catch (error) {
     console.log(error)
