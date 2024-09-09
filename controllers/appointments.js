@@ -1,5 +1,7 @@
 import { Profile } from "../models/profile.js";
 import { Appointment } from "../models/appointment.js";
+import { Doctor } from "../models/doctor.js";
+
 
 async function create(req, res) {
   try {
@@ -11,6 +13,20 @@ async function create(req, res) {
       { $push: {appointments: appointment} },
       { new: true }
     )
+
+    const doctor = await Doctor.findById(req.body.doctor);
+
+    doctor.availability.forEach((availability) => {
+      if (new Date(availability.date).toISOString().split("T")[0] === new Date(req.body.appointmentDate).toISOString().split("T")[0]) {
+        availability.slots.forEach((slot) => {
+          if (slot.time === req.body.time) {
+            slot.isAvailable = false;
+          }
+        });
+      }
+    });
+
+    await doctor.save();
     appointment.patient = profile
     res.status(201).json(appointment)
   } catch (error) {
