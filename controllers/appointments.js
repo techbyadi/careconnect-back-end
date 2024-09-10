@@ -12,9 +12,10 @@ async function create(req, res) {
       { $push: { appointments: appointment } },
       { new: true }
     )
-
+    
     const doctor = await Doctor.findById(req.body.doctor)
-
+    appointment.doctor = doctor
+    
     doctor.availability.forEach((availability) => {
       if (
         new Date(availability.date).toISOString().split("T")[0] ===
