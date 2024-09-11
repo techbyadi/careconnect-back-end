@@ -8,6 +8,10 @@ const userSchema = new Schema({
   name: String,
   email: { type: String, required: true, lowercase: true },
   password: String,
+  isDoctor: {
+    type: Boolean,
+    default: false,
+  },
   profile: { type: Schema.Types.ObjectId, ref: 'Profile' },
 }, {
   timestamps: true,
