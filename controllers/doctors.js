@@ -4,7 +4,6 @@ import { Profile } from "../models/profile.js"
 async function create(req, res) {
   try {
     console.log(req.body)
-    
     const doctor = await Doctor.create(req.body)
     res.status(201).json(doctor)
   } catch (error) {
@@ -15,7 +14,7 @@ async function create(req, res) {
 
 async function index(req, res) {
   try {
-    const doctors = await Doctor.find()   
+    const doctors = await Doctor.find()
     res.status(200).json(doctors)
   } catch (error) {
     console.log(error)
@@ -26,6 +25,7 @@ async function index(req, res) {
 async function show(req, res) {
   try {
     const doctor = await Doctor.findById(req.params.doctorId).populate('reviews.author')
+    doctor.reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     res.status(200).json(doctor)
   } catch (error) {
     console.log(error)

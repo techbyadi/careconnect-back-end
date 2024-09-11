@@ -42,7 +42,7 @@ async function index(req, res) {
   try {
     const appointments = await Appointment.find({ patient: req.user.profile })
       .populate("patient")
-      .populate("doctor")
+      .populate("doctor").sort({ createdAt: -1 })
     res.status(200).json(appointments)
   } catch (error) {
     console.log(error)

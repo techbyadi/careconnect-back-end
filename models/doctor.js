@@ -12,6 +12,8 @@ const reviewSchema = new Schema({
   rating: {
     type: Number
   }
+}, {
+  timestamps: true,
 })
 
 const doctorSchema = new Schema({
