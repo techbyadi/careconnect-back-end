@@ -64,9 +64,7 @@ async function show(req, res) {
 
 async function update(req, res) {
   try {
-
     const existingAppointment = await Appointment.findById(req.params.appointmentId);
-
     const appointment = await Appointment.findByIdAndUpdate(
       req.params.appointmentId,
       req.body,
@@ -74,11 +72,9 @@ async function update(req, res) {
     ).populate("patient")
 
     const doctor = await Doctor.findById(appointment.doctor);
-
-    const existingAppointmentDate = new Date(existingAppointment.appointmentDate).toISOString().split("T")[0];
-    const newAppointmentDate = new Date(appointment.appointmentDate).toISOString().split("T")[0];
-
-    
+    appointment.doctor = doctor
+    const existingAppointmentDate = new Date(existingAppointment.appointmentDate).toISOString().split("T")[0]
+    const newAppointmentDate = new Date(appointment.appointmentDate).toISOString().split("T")[0]
     if (existingAppointmentDate !== newAppointmentDate || existingAppointment.time !== appointment.time) {
       doctor.availability.forEach((availability) => {
         const availabilityDate = new Date(availability.date).toISOString().split("T")[0]
@@ -91,7 +87,6 @@ async function update(req, res) {
         }
       })
     }
-
     doctor.availability.forEach((availability) => {
       const availabilityDate = new Date(availability.date).toISOString().split("T")[0]
       if (availabilityDate === newAppointmentDate) {
@@ -102,7 +97,6 @@ async function update(req, res) {
         })
       }
     })
-
     await doctor.save()
     res.status(200).json(appointment)
   } catch (error) {
