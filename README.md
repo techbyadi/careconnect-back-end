@@ -1,5 +1,6 @@
 # **CareConnect**
-![CareConnect front page](https://i.imgur.com/6T2T398.png)
+![image](https://github.com/user-attachments/assets/faffa951-fd13-413e-9a0a-c797f863d1df)
+![image](https://github.com/user-attachments/assets/5cf26712-baa5-4bf8-89dd-ed249b59a514)
 <br></br>
 * ## Welcome to CareConnect!
    * #### **[Open CareConnect](https://care-connect-health.netlify.app/)**
